@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking ID Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .tracking-id {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #007bff;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>USPS Tracking ID Generator</h1>
+    <button onclick="generateAndShowTrackingID()">Generate Tracking ID</button>
+    <p class="tracking-id" id="tracking-id"></p>
+
+    <script>
+        function generateTrackingID() {
+            const formats = [
+                "9400###########", // USPS 22-digit format
+                "LX#########US",   // USPS 13-character format
+                "EA#########US"    // Express format
+            ];
+            
+            let format = formats[Math.floor(Math.random() * formats.length)];
+            let trackingID = format.replace(/#/g, () => Math.floor(Math.random() * 10));
+
+            return trackingID;
+        }
+
+        function generateAndShowTrackingID() {
+            document.getElementById('tracking-id').innerText = generateTrackingID();
+        }
+    </script>
+
+</body>
+</html>

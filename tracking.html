@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miles Logistics Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/tracking.css">
+</head>
+<body>
+    <div class="tracking-container">
+        <h1><i class="fas fa-map-marker-alt"></i> Package Tracker</h1>
+        <p>Enter your tracking number to receive real-time updates.</p>
+
+        <div class="tracking-input">
+            <input type="text" id="tracking-id" placeholder="Enter Tracking Number">
+            <button onclick="trackOrder()"><i class="fas fa-search"></i> Track</button>
+        </div>
+
+        <div class="tracking-status" id="tracking-status" style="display: none;">
+            <h2><i class="fas fa-box"></i> Tracking Details</h2>
+
+            <div class="tracking-info">
+                <p><strong>Order ID:</strong> <span id="order-id"></span></p>
+                <p><strong>Status:</strong> <span id="order-status" class="status-text">Order Placed</span></p>
+                <p><strong>Estimated Delivery:</strong> <span id="delivery-date">06/04/2025</span></p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-step active" id="step-1"><i class="fas fa-box"></i> Order Placed</div>
+                <div class="progress-step" id="step-2"><i class="fas fa-shipping-fast"></i> Shipped</div>
+                <div class="progress-step" id="step-3"><i class="fas fa-truck"></i> Out for Delivery</div>
+                <div class="progress-step" id="step-4"><i class="fas fa-check-circle"></i> Delivered</div>
+            </div>
+
+            <div class="tracking-details">
+                <h3>Package Information</h3>
+                <p><strong>Item:</strong> <span id="item">iPhone 17 Pro Max</span></p>
+                <p><strong>Sender:</strong> <span id="sender">Miles Logistics (Australia)</span></p>
+                <p><strong>Sender Location:</strong> <span id="sender-location">Sydney, Australia</span></p>
+                <p><strong>Recipient:</strong> <span id="recipient">Jan Poole Creech</span></p>
+                <p><strong>Shipping Address:</strong> <span id="shipping-address">Shreveport, LA, USA</span></p>
+                <p><strong>Courier Service:</strong> <span id="courier">MILES LOGISTICS</span></p>
+                <p><strong>Weight:</strong> <span id="weight">0.8kg</span></p>
+                <p><strong>Shipment Type:</strong> <span id="shipment-type">Priority Express</span></p>
+                <p><strong>Email:</strong> <span id="email">Janpoole51@hotmail.com</span></p>
+                <p><strong>Phone:</strong> <span id="phone">+1 (318) 347-7755</span></p>
+            </div>
+
+            <!-- Live Tracking Map -->
+            <div id="map" style="height: 400px;"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const trackingDatabase = {
+            "EA147185623US": {
+                status: "CONSIGNMENTS On HOLD for Airport Clearance",
+                deliveryDate: "06/04/2025",
+                location: "Shreveport, LA, USA",
+                recipient: "Jan Poole Creech",
+                address: "Shreveport, LA, USA",
+                courier: "MILES LOGISTICS",
+                weight: "0.8kg",
+                type: "Priority Express",
+                item: "iPhone 17 Pro Max",
+                sender: "Miles Logistics (Australia)",
+                senderLocation: "Sydney, Australia",
+                email: "Janpoole51@hotmail.com",
+                phone: "+1 (318) 347-7755"
+            }
+        };
+
+        function trackOrder() {
+            let trackingId = document.getElementById('tracking-id').value.trim();
+
+            if (trackingDatabase[trackingId]) {
+                let details = trackingDatabase[trackingId];
+
+                document.getElementById('tracking-status').style.display = 'block';
+                document.getElementById('order-id').innerText = trackingId;
+                document.getElementById('order-status').innerText = details.status;
+                document.getElementById('delivery-date').innerText = details.deliveryDate;
+                document.getElementById('recipient').innerText = details.recipient;
+                document.getElementById('shipping-address').innerText = details.address;
+                document.getElementById('courier').innerText = details.courier;
+                document.getElementById('weight').innerText = details.weight;
+                document.getElementById('shipment-type').innerText = details.type;
+                document.getElementById('item').innerText = details.item;
+                document.getElementById('sender').innerText = details.sender;
+                document.getElementById('sender-location').innerText = details.senderLocation;
+                document.getElementById('email').innerText = details.email;
+                document.getElementById('phone').innerText = details.phone;
+
+                // Initialize Map - centered on Shreveport, LA
+                let map = L.map('map').setView([32.525, -93.75], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+
+                L.marker([32.525, -93.75]).addTo(map)
+                    .bindPopup(`<b>${details.recipient}</b><br>${details.address}`)
+                    .openPopup();
+            } else {
+                alert('Invalid Tracking ID! Please check and try again.');
+            }
+        }
+    </script>
+</body>
+</html>

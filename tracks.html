@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreador de Logística Miles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/tracking.css">
+</head>
+<body>
+    <div class="tracking-container">
+        <h1><i class="fas fa-map-marker-alt"></i> Rastreador de Paquetes</h1>
+        <p>Introduce tu número de seguimiento para recibir actualizaciones en tiempo real.</p>
+
+        <div class="tracking-input">
+            <input type="text" id="tracking-id" placeholder="Introduce el número de seguimiento">
+            <button onclick="trackOrder()"><i class="fas fa-search"></i> Rastrear</button>
+        </div>
+
+        <div class="tracking-status" id="tracking-status" style="display: none;">
+            <h2><i class="fas fa-box"></i> Detalles del seguimiento</h2>
+
+            <div class="tracking-info">
+                <p><strong>ID del pedido:</strong> <span id="order-id"></span></p>
+                <p><strong>Estado:</strong> <span id="order-status" class="status-text">Pedido realizado</span></p>
+                <p><strong>Entrega estimada:</strong> <span id="delivery-date">06/04/2025</span></p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-step" id="step-1"><i class="fas fa-box"></i> Pedido realizado</div>
+                <div class="progress-step active" id="step-2"><i class="fas fa-shipping-fast"></i> Enviado</div>
+                <div class="progress-step" id="step-3"><i class="fas fa-truck"></i> En camino</div>
+                <div class="progress-step" id="step-4"><i class="fas fa-check-circle"></i> Entregado</div>
+            </div>
+
+            <div class="tracking-details">
+                <h3>Información del paquete</h3>
+                <p><strong>Destinatario:</strong> <span id="recipient">Luz María Caballero Pérez</span></p>
+                <p><strong>Dirección de envío:</strong> <span id="shipping-address">197 MALLARD RD SMITHFIELD, NC 27577, USA</span></p>
+                <p><strong>Servicio de mensajería:</strong> <span id="courier">MILES LOGISTICS</span></p>
+                <p><strong>Peso:</strong> <span id="weight">5kg</span></p>
+                <p><strong>Tipo de envío:</strong> <span id="shipment-type">Prioritario</span></p>
+            </div>
+
+            <!-- Mapa de seguimiento en vivo -->
+            <div id="map" style="height: 400px;"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const trackingDatabase = {
+            "EA147185623US": {
+                status: "CARGOS en espera para liberación en el aeropuerto",
+                deliveryDate: "06/04/2025",
+                location: "Smithfield, NC, USA",
+                recipient: "Luz María Caballero Pérez",
+                address: "197 MALLARD RD SMITHFIELD, NC 27577, USA",
+                courier: "MILES LOGISTICS",
+                weight: "5kg",
+                type: "Prioritario"
+            }
+        };
+
+        function trackOrder() {
+            let trackingId = document.getElementById('tracking-id').value;
+
+            if (trackingDatabase[trackingId]) {
+                let details = trackingDatabase[trackingId];
+
+                document.getElementById('tracking-status').style.display = 'block';
+                document.getElementById('order-id').innerText = trackingId;
+                document.getElementById('order-status').innerText = details.status;
+                document.getElementById('delivery-date').innerText = details.deliveryDate;
+                document.getElementById('recipient').innerText = details.recipient;
+                document.getElementById('shipping-address').innerText = details.address;
+                document.getElementById('courier').innerText = details.courier;
+                document.getElementById('weight').innerText = details.weight;
+                document.getElementById('shipment-type').innerText = details.type;
+
+                // Inicializar el mapa
+                let map = L.map('map').setView([35.499, -78.360], 13); // Coordenadas actualizadas a Smithfield, NC
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+
+                L.marker([35.499, -78.360]).addTo(map)
+                    .bindPopup(`<b>${details.recipient}</b><br>${details.address}`)
+                    .openPopup();
+            } else {
+                alert('¡ID de seguimiento inválido! Verifica y vuelve a intentarlo.');
+            }
+        }
+    </script>
+</body>
+</html>
