@@ -1,0 +1,199 @@
+/* tracking.css */
+
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #eef2f3, #8e9eab);
+    color: #333;
+    text-align: center;
+}
+
+/* Tracking Container */
+.tracking-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.tracking-container h1 {
+    font-size: 2em;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.tracking-container p {
+    font-size: 1.1em;
+    color: #555;
+}
+
+/* Input Section */
+.tracking-input {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.tracking-input input {
+    padding: 12px;
+    width: 60%;
+    font-size: 1em;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+}
+
+.tracking-input button {
+    padding: 12px 20px;
+    font-size: 1em;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.tracking-input button:hover {
+    background: #0056b3;
+}
+
+/* Tracking Status */
+.tracking-status {
+    text-align: left;
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    background: #f8f9fa;
+}
+
+/* Tracking Details */
+.tracking-info {
+    font-size: 1.1em;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.tracking-info p {
+    margin: 5px 0;
+}
+
+/* Progress Bar */
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.progress-step {
+    text-align: center;
+    flex: 1;
+    position: relative;
+    font-size: 0.9em;
+    color: #999;
+}
+
+.progress-step i {
+    display: block;
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    background: #ddd;
+    padding: 12px;
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.progress-step.active i {
+    background: #007bff;
+    color: white;
+}
+
+/* Progress Line */
+.progress-container::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: #ddd;
+    top: 20px;
+    left: 0;
+    z-index: -1;
+}
+
+.progress-step.active::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: #007bff;
+    top: 20px;
+    left: 0;
+    z-index: -1;
+}
+
+/* Tracking Details */
+.tracking-details {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.tracking-details h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Map Styling */
+#map {
+    width: 100%;
+    height: 350px;
+    border-radius: 12px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Package Icon on Map */
+.package-icon {
+    font-size: 24px;
+    color: red;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tracking-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .tracking-input input {
+        width: 100%;
+    }
+
+    .tracking-input {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .progress-container {
+        flex-direction: column;
+    }
+
+    .progress-step {
+        margin-bottom: 10px;
+    }
+}
